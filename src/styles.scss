@@ -1,1 +1,23 @@
-/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+$audio-streaming-front-end-primary: mat.define-palette(mat.$indigo-palette);
+$audio-streaming-front-end-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+
+$audio-streaming-front-end-warn: mat.define-palette(mat.$red-palette);
+
+$audio-streaming-front-end-theme: mat.define-light-theme((
+  color: (
+    primary: $audio-streaming-front-end-primary,
+    accent: $audio-streaming-front-end-accent,
+    warn: $audio-streaming-front-end-warn,
+  ),
+  typography: mat.define-typography-config(),
+  density: 0
+));
+
+@include mat.all-component-themes($audio-streaming-front-end-theme);
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; padding: 2em; }

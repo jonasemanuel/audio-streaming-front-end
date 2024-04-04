@@ -1,0 +1,33 @@
+<div class="search">
+    <mat-form-field class="full-width">
+      <mat-label>Buscar música</mat-label>
+      <input matInput type="text" placeholder="Ex: Like a Prayer" [(ngModel)]="searchTerm">
+      <button matSuffix mat-icon-button aria-label="Clear" (click)="searchMusic()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+</div>
+<div class="content">
+  <div *ngIf="musics.length === 0">
+    <p>Nenhuma música encontrada</p>
+  </div>
+  <div [fxFlex]="(100/gridColumns) + '%'" fxFlex.xs="100%" fxFlex.sm="33%" *ngFor="let music of musics">
+    <mat-card class="music">
+      <mat-card-header>
+        <mat-card-title>{{music.name}}</mat-card-title>
+      </mat-card-header>
+      <img
+        mat-card-image
+        [src]="music.album.imageUrl"
+      />
+      <mat-card-content>
+        <p>
+          <b>Album</b>: {{music.album.name}}
+        </p>
+      </mat-card-content>
+      <mat-card-actions fxLayoutAlign="center center">
+        <button mat-button>CURTIR</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
