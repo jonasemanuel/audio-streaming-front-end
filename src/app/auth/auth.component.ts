@@ -5,6 +5,8 @@ import {MatFormField, MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatButton} from "@angular/material/button";
 import {RouterLink} from "@angular/router";
+import { Router } from '@angular/router';
+import {AuthService} from "../services/auth.service";
 
 @Component({
   standalone: true,
@@ -20,10 +22,31 @@ import {RouterLink} from "@angular/router";
     MatFormFieldModule,
     MatInputModule,
     MatButton,
-    RouterLink
+    RouterLink,
   ],
 })
 export class AuthComponent {
+
+  email = '';
+  password = '';
+  error = '';
+
+  constructor(private readonly authService: AuthService, private router: Router) {
+  }
+
+  auth(email: string, password: string) {
+    this.authService.auth(email, password).subscribe({
+      next: (data) => {
+        localStorage.setItem('token', data);
+        this.router.navigate(['/home']);
+      }, error: (error) => {
+        if(error.status === 401) {
+          this.error = 'Dados inválidos';
+        }
+      }
+    })
+  }
+
   form: FormGroup = new FormGroup({
     username: new FormControl(''),
     password: new FormControl(''),
@@ -35,6 +58,5 @@ export class AuthComponent {
     }
   }
 
-  @Input() error?: string
   @Output() submitEM = new EventEmitter();
 }
